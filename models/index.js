@@ -15,7 +15,7 @@ const bookshelf = require('bookshelf')(knex);
 
 const models = {};
 models.User = require('./User')(bookshelf);
-//models.Album = require('./Album')(bookshelf);
+models.Album = require('./Album')(bookshelf);
 //models.Photo = require('./Photo')(bookshelf);
 
 

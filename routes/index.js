@@ -8,7 +8,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.use('/users', require('./users'));//auth.basic, lägg middleware här för att den ska köras på alla som börjar med users
-//router.use('/albums', require('./albums'));
+router.use('/albums', require('./albums'));
 //router.use('/photos',  require('./photos'));
 
 
