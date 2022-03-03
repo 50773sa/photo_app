@@ -16,7 +16,7 @@ const bookshelf = require('bookshelf')(knex);
 const models = {};
 models.User = require('./User')(bookshelf);
 models.Album = require('./Album')(bookshelf);
-//models.Photo = require('./Photo')(bookshelf);
+models.Photo = require('./Photo')(bookshelf);
 
 
 //Med tre prickar framför models blir det en spread = Läser in alla models samtidigt

@@ -1,5 +1,5 @@
 /**
- * Author Validation Rules
+ * Album Validation Rules
  */
 
  const { body } = require('express-validator');
@@ -9,14 +9,19 @@
 
  const createRules = [
      body('title').exists().isLength({ min: 3 }),
-     body('userId').exists().isLength({ min: 1 }),
+     body('user_id').exists().isInt({ min: 1 }),
  ];
 
  //* Update Album validation rules
+
+ const updateRules = [
+    body('title').optional().isLength({ min: 3 }),
+];
 
 
  
  module.exports = {
      createRules,
+     updateRules
  }
  
