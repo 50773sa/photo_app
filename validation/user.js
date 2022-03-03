@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
 const models = require('../models');
  
-//* Create Profile validation rules
+//* Create User validation rules
 
  const createRules = [
 	// Check if email alredy exists
@@ -17,12 +17,18 @@ const models = require('../models');
 	body('password').exists().isLength({ min: 6 }),
 	body('first_name').exists().isLength({ min: 3 }),
 	body('last_name').exists().isLength({ min: 3 }),
-	
-
-    
  ];
  
+//* Update User Validation Rules
+
+ const updateRules = [
+	body('password').optional().isLength({ min: 4 }),
+	body('first_name').optional().isLength({ min: 2 }),
+	body('last_name').optional().isLength({ min: 2 }),
+];
+
  module.exports = {
 	 createRules,
+	 updateRules,
  }
  

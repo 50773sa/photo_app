@@ -5,7 +5,7 @@
  const bcrypt = require('bcrypt');
  const debug = require('debug')('photo_app:auth');
  const { User } = require('../models');
- 
+    
  /**
   * HTTP Basic Authentication
   */
@@ -13,7 +13,7 @@
 	 debug("Hello from auth.basic!");
  
 	 // make sure Authorization header exists, otherwise bail
-	 if (!req.headers.authorization) {
+	 if (!req.headers.authorization) {s
 		 debug("Authorization header missing");
  
 		 return res.status(401).send({
@@ -43,9 +43,9 @@
  
 	 // decode payload from base64 => ascii
 	 const decodedPayload = Buffer.from(base64Payload, 'base64').toString('ascii');
-	 // decodedPayload = "username:password"
+	 // decodedPayload = "email:password"
  
-	 // split decoded payload into "<username>:<password>"
+	 // split decoded payload into "<email>:<password>"
 	 const [email, password] = decodedPayload.split(':');
  
 	 // find user based on the email (bail if no such user exists)
@@ -78,3 +78,5 @@
  module.exports = {
 	 basic,
  }
+
+
