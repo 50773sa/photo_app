@@ -17,7 +17,7 @@
      res.send({
          status: 'success',
          data: {
-            albums
+            user: albums
          }
      });
  }
@@ -58,6 +58,7 @@
          const album = await new models.Album(validData).save();
          debug("Created new album successfully: %O", album);
  
+         //!Attach
          res.send({
              status: 'success',
              data: {
@@ -122,23 +123,11 @@
      }
  }
  
-//  /**
-//   * Destroy a specific resource
-//   *
-//   * DELETE /:albumId
-//   */
-//  const destroy = (req, res) => {
-//      res.status(405).send({
-//          status: 'fail',
-//          message: 'Method Not Allowed.',
-//      });
-//  }
- 
+
  module.exports = {
      index,
      show,
      store,
      update,
-     //destroy,
  }
  

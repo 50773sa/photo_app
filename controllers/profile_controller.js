@@ -10,6 +10,7 @@ const { matchedData, validationResult } = require('express-validator');
 //*  Get authenticated user's profile
 
 const getProfile = async (req, res) => {
+	
 	res.send({
 		status: 'success',
 		data: {
