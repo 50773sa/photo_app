@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middlewares/auth');
+const registerController = require('../controllers/register_controller');
+const userValidationRules = require('../validation/user');
 
 
 // GET
@@ -10,8 +12,12 @@ router.get('/', (req, res, next) => {
 
 
 // auth.basic = middleware. Runs with everything that runs with profile
+router.use('/users', require('./users'));
 router.use('/profile', auth.basic, require('./profile'));
 router.use('/albums', require('./albums'));
-router.use('/photos', require('./photos'));
+//router.use('/photos', require('./photos'));
+
+// register a new user
+router.post('/register', userValidationRules.createRules, registerController.register);
 
 module.exports = router;
