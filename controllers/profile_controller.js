@@ -37,6 +37,8 @@ const getAlbums = async (req, res) => {
 	});
 };
 
+
+
 const addAlbum = async (req, res) => {
 
 	// check for any validation errors

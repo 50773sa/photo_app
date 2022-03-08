@@ -1,16 +1,14 @@
-/**
- * Album Controller
- */
 
+// ALBUM CONTROLLER
+
+const bcrypt = require('bcrypt');
  const debug = require('debug')('photo_app:album_controller');
  const { matchedData, validationResult } = require('express-validator');
  const models = require('../models');
+
  
- /**
-  * Get all resources
-  *
-  * GET /
-  */
+//* GET all albums
+
  const index = async (req, res) => {
      const albums = await models.Album.fetchAll();
  
@@ -20,16 +18,14 @@
             user: albums
          }
      });
- }
+ };
  
- /**
-  * Get a specific resource
-  *
-  * GET /:albumId
-  */
+
+ //* GET a specific album (/:albumId)
+
  const show = async (req, res) => {
-     const album = await new models.Album({ id: req.params.albumId })
-         .fetch({ withRelated: ['photos', 'users'] });
+     const album = await new models.Album({ id: req.params.albumId }) 
+         .fetch({ withRelated: ['albums'] });
  
      res.send({
          status: 'success',
@@ -37,49 +33,16 @@
              album,
          }
      });
- }
+ };
+
  
- /**
-  * Store a new resource
-  *
-  * POST /
-  */
- const store = async (req, res) => {
-     // check for any validation errors
-     const errors = validationResult(req);
-     if (!errors.isEmpty()) {
-         return res.status(422).send({ status: 'fail', data: errors.array() });
-     }
- 
-     // get only the validated data from the request
-     const validData = matchedData(req);
- 
-     try {
-         const album = await new models.Album(validData).save();
-         debug("Created new album successfully: %O", album);
- 
-         //!Attach
-         res.send({
-             status: 'success',
-             data: {
-                 album,
-             },
-         });
- 
-     } catch (error) {
-         res.status(500).send({
-             status: 'error',
-             message: 'Exception thrown in database when creating a new album.',
-         });
-         throw error;
-     }
- }
- 
- /**
-  * Update a specific resource
-  *
-  * PUT /:albumId
-  */
+
+
+
+
+
+ //* PUT- Update aspecific album (/:albumId)
+
  const update = async (req, res) => {
      const albumId = req.params.albumId;
  
@@ -127,7 +90,6 @@
  module.exports = {
      index,
      show,
-     store,
      update,
  }
  

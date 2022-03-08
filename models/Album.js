@@ -1,4 +1,4 @@
-//User model
+//Album model
 
 module.exports = (bookshelf) => {
 	return bookshelf.model('Album', {
@@ -6,8 +6,8 @@ module.exports = (bookshelf) => {
 		users() {
 			return this.belongsTo('User');
 		},
-		photos() {
-			return this.belongsToMany('Photo'); //! ??ta bort?
-		}
+		// photos() {
+		// 	return this.hasMany(Photo)
+		// }
 	});
 };

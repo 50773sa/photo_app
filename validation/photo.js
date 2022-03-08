@@ -1,17 +1,15 @@
-/**
- * Photo Validation Rules
- */
+
+// PHOTO VALIDATION RULES
 
  const { body } = require('express-validator');
  const models = require('../models');
  
- /**
-  * Create Photo validation rules
+ 
+//* Create Photo validation rules
 
-  */
  const createRules = [
 	 body('title').exists().isLength({ min: 3 }),
-	 body('url').exists().isLength({ min: 1 }),
+	 body('url').exists().isURL().isLength({ min: 1 }),
 	 body('comment').optional().isLength({ min: 1 }),
 	 body('user_id').exists().isInt({ min: 1 }),
 	 body('album_id').exists().bail().custom(async value => {

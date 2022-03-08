@@ -5,6 +5,7 @@
  const bcrypt = require('bcrypt');
  const debug = require('debug')('photo_app:auth');
  const { User } = require('../models');
+
     
  /**
   * HTTP Basic Authentication
@@ -13,7 +14,7 @@
 	 debug("Hello from auth.basic!");
  
 	 // make sure Authorization header exists, otherwise bail
-	 if (!req.headers.authorization) {s
+	 if (!req.headers.authorization) {
 		 debug("Authorization header missing");
  
 		 return res.status(401).send({

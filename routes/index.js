@@ -12,7 +12,6 @@ router.get('/', (req, res, next) => {
 
 
 // auth.basic = middleware. Runs with everything that runs with profile
-router.use('/users', require('./users'));
 router.use('/profile', auth.basic, require('./profile'));
 router.use('/albums', require('./albums'));
 //router.use('/photos', require('./photos'));
