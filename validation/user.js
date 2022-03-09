@@ -1,15 +1,6 @@
 
-
 // REGISTER USER
 // USER_VALIDATION RULES
-
-//--------------------------
-
- const { body } = require('express-validator');
- const models = require('../models');
- 
- 
- //  REGISTRATION VALIDATION RULES
 
  const { body } = require('express-validator');
  const models = require('../models');
@@ -37,7 +28,7 @@
  
  const createRules = [
 
- // Check if email alredy exists
+ 	// Check if email alredy exists
 	body('user_id').exists().isInt({ min: 1 }),
 	body('email').exists().isLength({ min: 4 }).custom(async value => {
 		const email = await new models.User({ email: value }).fetch({ require: false });//require: false = OK to not found email. Otherwise CRASH BAM BOOM!!!

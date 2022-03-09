@@ -1,24 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const albumController = require('../controllers/album_controller');
-const profileController = require('../controllers/profile_controller');
 const albumValidationRules = require('../validation/album');
 
-
-//* Get all albums (no need fo authentication)
-router.get('/', albumController.index);
+//*  Get authenticated user's albums
+router.get('/', albumController.getAlbums);
 
 
 //* Get a single album
-router.get('/:albumId', albumController.show);
+router.get('/:albumId', albumController.getUserAlbum);
 
 
-//* Create a new album
-router.post('/albums', albumValidationRules.createRules, profileController.addAlbum);
+//* POST album to authenticated users
+router.post('/', albumValidationRules.createRules, albumController.addAlbum);
 
 
 //* Update an album
-router.put('/:albumId', albumValidationRules.updateRules, albumController.update);
+router.put('/:albumId', albumValidationRules.updateRules, albumController.updateAlbum);
 
 
 //* Add photo to an album
