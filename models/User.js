@@ -1,4 +1,5 @@
-//User model
+
+//USER MODEL
 
  module.exports = (bookshelf) => {
 	return bookshelf.model('User', {
@@ -7,6 +8,9 @@
 		albums() {
 			return this.hasMany('Album');
 		},
+		photos() {
+			return this.hasMany('Photo');
+		}
 		
 	});
 	
