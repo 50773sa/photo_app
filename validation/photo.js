@@ -11,15 +11,15 @@
 	 body('title').exists().isLength({ min: 3 }),
 	 body('url').exists().isURL().isLength({ min: 1 }),
 	 body('comment').optional().isLength({ min: 1 }),
-	 body('user_id').exists().isInt({ min: 1 }),
-	 body('album_id').exists().bail().custom(async value => {
-		 const album = await new models.Album({ id: value }).fetch({ require: false });
-		 if (!album) {
-			 return Promise.reject(`Album with ID ${value} does not exist.`);
-		 }
+	//  body('user_id').exists().isInt({ min: 1 }),
+	//  body('album_id').exists().bail().custom(async value => {
+	// 	 const album = await new models.Album({ id: value }).fetch({ require: false });
+	// 	 if (!album) {
+	// 		 return Promise.reject(`Album with ID ${value} does not exist.`);
+	// 	 }
  
-		 return Promise.resolve();
-	 }),
+	// 	 return Promise.resolve();
+	//  }),
  ];
  
  
