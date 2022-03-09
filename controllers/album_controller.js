@@ -145,10 +145,10 @@ const updateAlbum = async (req, res) => {
 };
  
 
- module.exports = {
-     getAlbums,
-     getUserAlbum,
-     addAlbum,
-     updateAlbum,
- }
+module.exports = {
+    getAlbums,
+    getUserAlbum,
+    addAlbum,
+    updateAlbum,
+};
  
