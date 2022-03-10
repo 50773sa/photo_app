@@ -9,7 +9,7 @@ const models = require('../models');
  //*  Create Album validation rules
 
 const createRules = [
-    body('title').exists().isLength({ min: 3 }).custom(async value => {
+    body('title').exists().isString({ min: 3 }).custom(async value => {
 		const title = await new models.Album({ title: value }).fetch({ require: false });
 		if (title) {
 			return Promise.reject("Title already exists.");
@@ -23,7 +23,14 @@ const createRules = [
 //* Update Album validation rules
 
 const updateRules = [
-    body('title').optional().isLength({ min: 3 })
+    body('title').exists().isString({ min: 3 }).custom(async value => {
+		const title = await new models.Album({ title: value }).fetch({ require: false });
+		if (title) {
+			return Promise.reject("Title already exists.");
+		}
+	
+		return Promise.resolve();
+	}),
 ];
 
 
