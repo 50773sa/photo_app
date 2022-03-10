@@ -39,7 +39,8 @@ const getUserAlbum = async (req, res) => {
     const validData = matchedData(req);
 
     // Check if users album exists
-    const album = user.related('albums').find(album => album.id == req.params.albumId);
+    const album = user.related('albums').find(album => album.id == req.params.albumId)
+		.fetch({withRelated: ['photos']})
 
     try {
         const getAlbum = await album.get(validData);
@@ -60,7 +61,6 @@ const getUserAlbum = async (req, res) => {
         throw error;
     };
 };
-
 
 
 //*  POST authenticated user's albums
