@@ -10,7 +10,7 @@
 		},
 		photos() {
 			return this.hasMany('Photo');
-		}
+		},
 		
 	});
 	

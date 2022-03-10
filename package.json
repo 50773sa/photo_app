@@ -15,6 +15,9 @@
   "devDependencies": {
     "cross-env": "^7.0.3"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "name": "photo_app",
   "version": "1.0.0",
   "main": "app.js",

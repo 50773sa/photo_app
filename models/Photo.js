@@ -5,10 +5,10 @@
 	return bookshelf.model('Photo', {
 		tableName: 'photos',
 		albums() {
-			return this.belongsTo('Album');   
+			return this.hasMany('Album');   
 		},
 		users() {
-			return this.belongsTo('User');//ett foto tillhör en användare
+			return this.belongsTo('User');
 		}
 	});
 }

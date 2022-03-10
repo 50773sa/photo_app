@@ -18,9 +18,9 @@
 	
 		return Promise.resolve();
 	}),
-	body('password').exists().isLength({ min: 6 }),
-	body('first_name').exists().isLength({ min: 3 }),
-	body('last_name').exists().isLength({ min: 3 }),
+	body('password').exists().trim().isLength({ min: 6 }),
+	body('first_name').exists().trim().isLength({ min: 3 }),
+	body('last_name').exists().trim().isLength({ min: 3 }),
  ];
 
 
@@ -29,8 +29,8 @@
  const createRules = [
 
  	// Check if email alredy exists
-	body('user_id').exists().isInt({ min: 1 }),
-	body('email').exists().isLength({ min: 4 }).custom(async value => {
+	body('user_id').exists().trim().isInt({ min: 1 }),
+	body('email').exists().trim().isLength({ min: 4 }).custom(async value => {
 		const email = await new models.User({ email: value }).fetch({ require: false });//require: false = OK to not found email. Otherwise CRASH BAM BOOM!!!
 		if (email) {
 			return Promise.reject("Email already exists.");
@@ -38,9 +38,9 @@
 		return Promise.resolve();	
 	}),
 
-	body('password').exists().isLength({ min: 6 }),
-	body('first_name').exists().isLength({ min: 3 }),
-	body('last_name').exists().isLength({ min: 3 }),
+	body('password').exists().trim().isLength({ min: 6 }),
+	body('first_name').exists().trim().isLength({ min: 3 }),
+	body('last_name').exists().trim().isLength({ min: 3 }),
 ];
 
  module.exports = {

@@ -12,7 +12,7 @@ router.get('/:albumId', albumController.getUserAlbum);
 
 
 //* POST album to authenticated users
-router.post('/', albumValidationRules.createRules, albumController.addAlbum);
+router.post('/', albumValidationRules.createRules, albumController.createAlbum);
 
 
 //* Update an album
@@ -20,7 +20,7 @@ router.put('/:albumId', albumValidationRules.updateRules, albumController.update
 
 
 //* Add photo to an album
-//router.post('/:albumId/photos', albumValidationRules.createRules, albumController.update);
+router.post('/:albumId/photos', albumValidationRules.addPhotoToAlbumRules, albumController.addPhotoToAlbum);
 
 
 module.exports = router;

@@ -1,6 +1,4 @@
 
-//! RÖR EJ
-
 // REGISTER CONTROLLER
 
 const bcrypt = require('bcrypt');
