@@ -10,17 +10,17 @@
 //*  GET authenticated user's albums
 
 const getAlbums = async (req, res) => {
-	
-	// "Called lazy load" = fetch the the albums-relation
-	await req.user.load('albums') 
- 
+
+	const user = await new models.User({ id: req.user.id })
+	.fetch({ withRelated: ['albums'] });
+
 	res.status(200).send({
 		status: 'success',
-		data: {
-			albums: req.user.related('albums'),
-		},
+		data: user,
+		
 	});
 };
+
 
 
 //* GET a specific album (/:albumId)
@@ -64,6 +64,7 @@ const getUserAlbum = async (req, res) => {
 };
 
 
+
 //*  POST authenticated user's albums
 
 const createAlbum = async (req, res) => {
@@ -97,6 +98,7 @@ const createAlbum = async (req, res) => {
 		throw error;
 	};
 };
+
 
 
 //* PUT- Update aspecific album (/:albumId)
@@ -147,37 +149,46 @@ const updateAlbum = async (req, res) => {
 
 
 
-
 //*  POST photo to authenticated user's album
 
 const addPhotoToAlbum = async (req, res) => {
 
-	// Get user-id and users albums
+	// Check for validation errors
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(422).send({ status: 'fail', data: errors.array() });
+	};
+
 	const user = await new models.User({ id: req.user.id })
 	  	.fetch({ withRelated: ['albums'] });
-
-	const album = await new models.Album({ id: req.params.albumId })
+	
+		  
+	const albums = await new models.Album({ id: req.params.albumId })
 	  	.fetch({ withRelated: ['photos'] });
 
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).send({ status: 'fail', data: errors.array() });
-    };
- 
-    // Get ONLY the validated data from the request // { photo_id: 3}
-    const validData = matchedData(req);
+
+	// Get ONLY the validated data from the request { photo_id: 3 }
+	const validData = matchedData(req);
+
 
     // Find the album
     const findAlbum = user.related('albums').find(album => album.id == req.params.albumId);
 
+
 	// Find the photo (photo_id when --> body)
-	const findPhoto = user.related('photos').find(photo => photo.id == req.user.photo_id);
+	const findPhoto = user.related('photos').find(photos => photos.id == req.user.photo_id);
+	//debug('Photo', findPhoto)
+
+	if (!findAlbum) {
+		return res.send({
+			status: 'error',
+			message: '403 Forbidden',
+		});
+	};
 
     try {
-
-		const result = await req.user.albums().attach(validData.photo_id);
-		debug('Adding photo --> album', result);
+		const result = await albums.photos().attach(validData.photo_id);
+		debug("Photo added to album: %O", result);
  
         res.send({
             status: 'success',
@@ -185,16 +196,15 @@ const addPhotoToAlbum = async (req, res) => {
             
         });
  
-	} catch (error) {
-		res.status(500).send({
-			status: 'error',
-			message: 'Exception thrown in database when adding photo to album.',
-		});
+	} 	catch (error) {
+			res.status(500).send({
+				status: 'error',
+				message: 'Exception thrown in database when adding photo to album.',
+			});
 		throw error;
 	};
 };
  
-
 
 module.exports = {
     getAlbums,	
@@ -203,4 +213,3 @@ module.exports = {
     updateAlbum,
 	addPhotoToAlbum,
 };
- 
