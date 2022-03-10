@@ -1,9 +1,9 @@
 
 // ALBUM CONTROLLER
 
- const debug = require('debug')('photo_app:album_controller');
- const { matchedData, validationResult } = require('express-validator');
- const models = require('../models');
+const debug = require('debug')('photo_app:album_controller');
+const { matchedData, validationResult } = require('express-validator');
+const models = require('../models');
 
  
 
@@ -16,10 +16,7 @@ const getAlbums = async (req, res) => {
 
 	res.status(200).send({
 		status: 'success',
-		data: {
-			albums: req.user.related('albums'),
-		},
-		
+		data: req.user.related('albums'),	
 	});
 };
 
@@ -44,7 +41,6 @@ const getUserAlbum = async (req, res) => {
     // Check if users album exists
     const album = user.related('albums').find(album => album.id == req.params.albumId);
 
-
     try {
         const getAlbum = await album.get(validData);
         debug('Fetched album: %O', getAlbum);
@@ -52,7 +48,7 @@ const getUserAlbum = async (req, res) => {
         res.send({
             status: 'success',
             data: {
-                album: album
+                album: album,
             },
         });
  

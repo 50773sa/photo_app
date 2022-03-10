@@ -11,13 +11,13 @@ router.get('/', (req, res, next) => {
 });
 
 
-// auth.basic = middleware. Runs with everything that runs with users
+// Auth.basic = middleware. Runs with everything that runs with users
 router.use('/users', auth.basic, require('./users'));
 router.use('/albums', auth.basic, require('./albums'));
 router.use('/photos', auth.basic, require('./photos'));
 
 
-// register a new user
+// Register a new user
 router.post('/register', userValidationRules.createRegistrationRules, registerController.register);
 
 module.exports = router;

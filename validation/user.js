@@ -2,13 +2,13 @@
 // REGISTER USER
 // USER_VALIDATION RULES
 
- const { body } = require('express-validator');
- const models = require('../models');
+const { body } = require('express-validator');
+const models = require('../models');
 
 
- //* Create User Registration rules
+//* Create User Registration rules
 
- const createRegistrationRules = [
+const createRegistrationRules = [
 	// Check if email alredy exists
 	body('email').exists().isEmail().trim().isLength({ min: 8 }).custom(async value => {
 		const email = await new models.User({ email: value }).fetch({ require: false });
@@ -21,12 +21,12 @@
 	body('password').exists().trim().isLength({ min: 6 }),
 	body('first_name').exists().trim().isLength({ min: 3 }),
 	body('last_name').exists().trim().isLength({ min: 3 }),
- ];
+];
 
 
- //* Create User validation rules
+//* Create User validation rules
  
- const createRules = [
+const createRules = [
 
  	// Check if email alredy exists
 	body('user_id').exists().trim().isInt({ min: 1 }),
@@ -46,4 +46,4 @@
  module.exports = {
 	createRegistrationRules,
 	 createRules,	 
- };
+};

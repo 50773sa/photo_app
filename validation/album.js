@@ -31,7 +31,7 @@ const updateRules = [
 //* POST existing Photo --> Album
 
 const addPhotoToAlbumRules = [
-	body('photo_id').exists().isInt({ min: 1 })
+	body('photo_id').exists().isInt()
 ];
 
 
