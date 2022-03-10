@@ -11,12 +11,14 @@
 
 const getAlbums = async (req, res) => {
 
-	const user = await new models.User({ id: req.user.id })
-	.fetch({ withRelated: ['albums'] });
+	// "Called lazy load" = fetch the the albums-relation
+	await req.user.load('albums') 
 
 	res.status(200).send({
 		status: 'success',
-		data: user,
+		data: {
+			albums: req.user.related('albums'),
+		},
 		
 	});
 };
