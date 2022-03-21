@@ -2,7 +2,7 @@
 const knex = require('knex')({
 	debug: true,
 	client: 'mysql',
-	connection: process.env.CLEADB_DATABASE_URL || {
+	connection: process.env.CLEARDB_DATABASE_URL || {
 		host: process.env.DB_HOST || 'localhost',
 		port: process.env.DB_PORT || 3306,
 		user: process.env.DB_USER || 'photo_app',
