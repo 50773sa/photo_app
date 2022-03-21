@@ -38,12 +38,12 @@ const getUserAlbum = async (req, res) => {
     // Get ONLY the validated data from the request
     const validData = matchedData(req);
 
-    // Check if users album exists
-    const album = user.related('albums').find(album => album.id == req.params.albumId)
+	// Check if users album exists
+	const album = user.related('albums').find(album => album.id == req.params.albumId)
 		.fetch({withRelated: ['photos']})
 
     try {
-        const getAlbum = await album.get(validData);
+        const getAlbum = await albums.get(validData);
         debug('Fetched album: %O', getAlbum);
  
         res.send({
