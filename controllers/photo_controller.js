@@ -47,7 +47,7 @@ const getUserPhoto = async (req, res) => {
         const getPhoto = await photo.get(validData);
         debug("Updated photo successfully: %O", getPhoto);
 
-        res.send({
+        return res.send({
             status: 'success',
             data: {
                 photo: photo
@@ -55,12 +55,10 @@ const getUserPhoto = async (req, res) => {
         });
 
     }   catch (error) {
-        res.status(404).send({
+        return res.status(404).send({
                 status: 'error',
                 message: 'Photo Not Found.',
         });
-        
-        throw error;
     };
 };
 
@@ -91,13 +89,10 @@ const addPhoto = async (req, res) => {
         });
 
     }   catch (error) {
-
-        res.status(500).send({
+        return res.status(500).send({
             status: 'error',
             message: 'Exception thrown in database when adding a photo to a user.',
         });
-
-        throw error;
     };
 };
 
@@ -139,12 +134,10 @@ const updatePhoto = async (req, res) => {
         });
 
     }   catch (error) {
-        res.status(500).send({
+        return res.status(500).send({
            status: 'error',
            message: 'Exception thrown in database when updating a photo.',
         });
-
-        throw error;
     };
 };
 

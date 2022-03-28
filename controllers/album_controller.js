@@ -25,41 +25,44 @@ const getAlbums = async (req, res) => {
 //* GET a specific album (/:albumId)
 
 const getUserAlbum = async (req, res) => {
+	const albumId = req.params.albumId;
 
-	const user = await new models.User({ id: req.user.id })
-	  	.fetch({ withRelated: ['albums'] });
- 
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).send({ status: 'fail', data: errors.array() });
-    };
- 
-    // Get ONLY the validated data from the request
-    const validData = matchedData(req);
+	// album exists?
+	const album = await new models.Album({ id: albumId })
+	.fetch({ require: false });
 
-	// Check if users album exists
-	const album = user.related('albums').find(album => album.id == req.params.albumId)
-		.fetch({withRelated: ['photos']})
+	if (!album) {
+		debug("Album not found %o", { id: albumId });
+		return res.status(404).send({
+			status: 'fail',
+			data: 'Album Not Found',
+		});
+	};
 
-    try {
-        const getAlbum = await albums.get(validData);
-        debug('Fetched album: %O', getAlbum);
- 
-        res.send({
-            status: 'success',
-            data: {
-                album: album,
-            },
-        });
- 
-    }   catch (error) {
-        res.status(404).send({
-             status: 'error',
-             message: 'Album Not Found.',
-        });
-        throw error;
-    };
+	// Any validation errors?
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(422).send({ status: 'fail', data: errors.array() });
+	};
+
+
+	try {
+		const getAlbum = await new models.Album({ id: albumId}).fetch({ withRelated: ['photos']});
+		debug('Show album with photos successfully: %O', getAlbum);
+
+		return res.send({
+			status: 'success',
+			data: {
+				album: getAlbum,
+			},
+		});
+
+	} 	catch (error) {
+		return res.status(500).send({
+			status: 'error',
+			message: 'Can not get album.',
+		});
+	};
 };
 
 
@@ -88,12 +91,11 @@ const createAlbum = async (req, res) => {
 			data: album
 		});
 
-	} catch (error) {
-		res.status(500).send({
+	} 	catch (error) {
+		return res.status(500).send({
 			status: 'error',
 			message: 'Exception thrown in database when adding album to a user.',
 		});
-		throw error;
 	};
 };
 
@@ -109,18 +111,17 @@ const updateAlbum = async (req, res) => {
 	const album = await new models.Album({ id: albumId }).fetch({ require: false });
 	if (!album) {
 		debug('Album', { id: albumId }, 'was not found.' );
-		res.status(404).send({
+		return res.status(404).send({
 			status: 'fail',
 			data: 'Album Not Found',
 		});
-		return;
-	}
+	};
 
 	// Check for validation errors
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(422).send({ status: 'fail', data: errors.array() });
-	}
+	};
 
 	// Get ONLY the validated data from the request
 	const validData = matchedData(req);
@@ -136,13 +137,12 @@ const updateAlbum = async (req, res) => {
 			},
 		});
 
-	} catch (error) {
-		res.status(500).send({
+	} 	catch (error) {
+		return res.status(500).send({
 			status: 'error',
 			message: 'Exception thrown in database when updating album.',
 		});
-		throw error;
-	}
+	};
 };
 
 
@@ -195,11 +195,10 @@ const addPhotoToAlbum = async (req, res) => {
         });
  
 	} 	catch (error) {
-			res.status(500).send({
-				status: 'error',
-				message: 'Exception thrown in database when adding photo to album.',
-			});
-		throw error;
+		return res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown in database when adding photo to album.',
+		});
 	};
 };
  

@@ -27,12 +27,10 @@ const register = async (req, res) => {
 		validData.password = await bcrypt.hash(validData.password, 10);
  
 	} 	catch (error) {
-		res.status(500).send({
+		return res.status(500).send({
 			status: 'error',
 		 	message: 'Exception thrown when hashing the password.',
 		});
-
-		throw error;
 	};
  
 	try {
@@ -47,12 +45,10 @@ const register = async (req, res) => {
 		})
  
 	} 	catch (error) {
-		res.status(500).send({
+		return res.status(500).send({
 			status: 'error',
 			message: 'Exception thrown in database when creating a new user.',
 		});
-
-		throw error;
 	};
 };
  
